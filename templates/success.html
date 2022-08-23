@@ -1,0 +1,36 @@
+doctype html
+head
+  title P - ${p.filehash}
+  link rel="stylesheet" href="/static/css/style.css"
+
+  script src="/static/js/jquery-2.0.3.min.js"
+
+body
+  -if p.type != "image"
+    div#card.visible
+      div#card-info
+        div.file-icon
+          img src="/static/img/${p.type}.png"
+        div.file-meta
+          h2#filename.filename ${p.filename}
+          span#filesize ${p.size_humanize}
+          span.sep •
+          span#uploadtime ${p.uploadTime}
+        div.p-link
+          input#link_s type="text" readonly="readonly" value="${p.url_s}" onmouseover="this.focus()"
+        div#action-area
+          a#download-link href="${p.url_d}" download
+          -if p.type == "pdf"
+            a#play-link href="${p.url_i}" preview
+          -elif p.type != "binary"
+            a#play-link href="${p.url_i}" play
+  -else
+    div#image-card.visible
+      div#image-preview
+        img src="${p.url_i}"
+        div#image-link
+          input readonly="readonly" type="text" value="${p.url_s}" onmouseover="this.focus()"
+
+  br
+  img id="qrcode" src="http://qr.dapps.douban.com/api/?text=${p.quoteurl}" width="150" height="150"
+  script src="/static/js/upload.js"
